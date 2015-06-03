@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}
+Template translator - Wikimedia Tool Labs
+{% endblock %}
+{% block content %}
+<div class="container">
+<h1>Template translator<small> &middot; <a href="api">API</a></small></h1>
+<h2>Convert Wikipedia templates from one language to another</h2>
+{% if error %}
+  <div class="alert alert-danger" role="alert">{{ error }}</div>
+{% endif %}
+<div class="col-md-6">
+  <form method="POST">
+    <div class="form-group">
+      <label for="from">From:</label>
+      <input type="text" required class="form-control" id="from" name="from" autocomplete="off" placeholder="en" value="{{ from }}">
+    </div>
+    <div class="form-group">
+      <label for="to">To:</label>
+      <input type="text" required class="form-control" id="to" name="to" autocomplete="off" placeholder="fr" value="{{ to }}">
+    </div>
+    <div class="form-group">
+      <label for="wikitext">Wikitext:</label>
+      <textarea required class="form-control" rows="8" id="wikitext" name="wikitext">{{ wikitext }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Translate</button>
+  </form>
+  <hr>
+  <form method="POST">
+    <span>...or</span>
+    <input type="submit" class="btn btn-default btn-sm" value="try it out"> with
+    <a href="//en.wikipedia.org/wiki/Eugène_Viollet-le-Duc">Eugène Viollet-le-Duc</a>
+    <input type="hidden" name="from" value="en">
+    <input type="hidden" name="to" value="fr">
+    <input type="hidden" name="wikitext" value="{% raw %}{{Infobox architect
+|name=Eugène Emannuel Viollet-le-Duc
+|image= Eugene viollet le duc.jpg
+|caption= Photograph by [[Nadar (artist)|Nadar]]
+|nationality=French
+|birth_name= Eugène Emmanuel Viollet-le-Duc
+|birth_date= {{birth date|1814|1|27|df=y}}
+|birth_place= Paris, France
+|death_date={{death date and age|1879|9|17|1814|1|27|df=y}}
+|death_place= Lausanne, Switzerland
+|resting_place=
+|practice=
+|significant_buildings=
+|significant_projects=
+|awards= [[Royal Gold Medal]] (1864)
+|pronunciation = {{IPA-fr|øʒɛn ɛmanɥɛl vjɔlɛ lə dyk|lang}}
+}}{% endraw %}">
+  </form>
+</div>
+{% if result %}
+  <div class="col-md-6">
+    {%- if result|length > 1 -%}
+      <div class="alert alert-info" role="alert">
+        Templates and parameters in <b>bold</b> could not be translated.
+      </div>
+    {%- endif -%}
+    <pre>{{ result[0] }}
+    {%- if result|length > 1 -%}
+      {%- for i in range(1, result|length, 2) -%}
+        <b>{{ result[i] }}</b>{{ result[i + 1] }}
+      {%- endfor -%}
+    {%- endif -%}
+    </pre>
+  </div>
+{% endif %}
+</div>
+{% endblock %}

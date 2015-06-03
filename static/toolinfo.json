@@ -1,0 +1,9 @@
+{
+	"name" : "translatemplate",
+	"title" : "Template translator",
+	"description" : "Convert Wikipedia templates from one language to another.",
+	"url" : "https://tools.wmflabs.org/translatemplate/",
+	"keywords" : "templates, translation, DBpedia, mwparserfromhell",
+	"author" : "Ricordisamoa",
+	"repository" : "https://github.com/wikimedia/labs-tools-translatemplate"
+}

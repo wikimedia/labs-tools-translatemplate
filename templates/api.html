@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% macro param(name, desc, required=False) -%}
+<dt><code>{{ name }}</code>{% if required %} <span class="label label-warning">REQUIRED</span>{% endif %}</dt>
+<dd>{{ desc }}</dd>
+{%- endmacro %}
+{% block head %}
+<style type="text/css">
+dt > code {
+	font-weight: normal;
+}
+</style>
+{% endblock %}
+{% block title %}
+Template translator - Wikimedia Tool Labs
+{% endblock %}
+{% block content %}
+<div class="container">
+<h1>Template translator API</h1>
+<h2>Parameters</h2>
+<dl>
+{{ param('wikitext', 'the wikitext containing templates to translate', required=True) }}
+{{ param('from', 'the Wikipedia language code to translate the templates from', required=True) }}
+{{ param('to', 'the Wikipedia language code to translate the templates to', required=True) }}
+</dl>
+<p><a href="api?wikitext=%7B%7BInfobox%20architect%0A%7C%20name%20%3D%20JustAName%0A%7D%7D&from=en&to=nl">Example</a>.</p>
+<p>Both GET and POST requests are accepted.</p>
+</div>
+{% endblock %}
