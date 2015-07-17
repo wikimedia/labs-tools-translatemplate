@@ -3,8 +3,8 @@
 
 import json
 from collections import Counter
-from urllib import urlencode
-from urllib2 import urlopen
+from urllib.parse import urlencode
+from urllib.request import urlopen
 
 import mwparserfromhell
 
@@ -22,12 +22,11 @@ def translate_templates(wikitext, lang_from, lang_to, shood_has_marker=True):
 
     prefixed_titles = [u'Template:{}'.format(title) for title in templates]
 
-    langlinks = get_langlinks(prefixed_titles, lang_from, lang_to)
-    for title_from, title_to in langlinks.items():
+    old_langlinks = get_langlinks(prefixed_titles, lang_from, lang_to)
+    langlinks = {}
+    for title_from, title_to in old_langlinks.items():
         if ':' in title_from[1:] and ':' in title_to[1:]:
             langlinks[title_from.split(':', 1)[1]] = title_to.split(':', 1)[1]
-        else:
-            del langlinks[title_from]
 
     mappings_from, mappings_to = get_mappings_from_templates(lang_from, lang_to, langlinks)
     mappings = intersect(mappings_from, mappings_to, langlinks)
@@ -55,7 +54,7 @@ def translate_templates(wikitext, lang_from, lang_to, shood_has_marker=True):
             elif tname not in langlinks:
                 ignored_templates[tname] = 'langlink not found'
     result = {
-        'wikitext': unicode(wikitext),
+        'wikitext': str(wikitext),
         'ignoredTemplates': ignored_templates,
         'ignoredParameters': ignored_parameters
     }
@@ -103,9 +102,9 @@ def intersect(mappings_from, mappings_to, langlinks):
 
 
 def get_json(url, data):
-    for key, value in data.items():
-        data[key] = value.encode('utf-8')
-    return json.load(urlopen(url, urlencode(data)))
+    with urlopen(url, urlencode(data).encode('utf-8')) as response:
+        raw = response.read()
+    return json.loads(raw.decode('utf-8'))
 
 
 def is_tmp(template, name):
