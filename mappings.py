@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright 2015 Ricordisamoa
+Copyright 2015-2016 Ricordisamoa
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ from urllib.request import urlopen
 import mwparserfromhell
 
 MARKER = u'\ue0ff'
-WIKIPEDIA_API = 'http://{}.wikipedia.org/w/api.php'
+WIKIPEDIA_API = 'https://{}.wikipedia.org/w/api.php'
 DBPEDIA_API = 'http://mappings.dbpedia.org/api.php'
 
 
