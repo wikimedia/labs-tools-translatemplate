@@ -22,7 +22,7 @@ from urllib.request import urlopen
 
 import mwparserfromhell
 
-MARKER = u'\ue0ff'
+MARKER = '\ue0ff'
 WIKIPEDIA_API = 'https://{}.wikipedia.org/w/api.php'
 DBPEDIA_API = 'http://mappings.dbpedia.org/api.php'
 
@@ -34,7 +34,7 @@ def translate_templates(wikitext, lang_from, lang_to, shood_has_marker=True):
     for template in wikitext.ifilter_templates():
         templates.append(template.name.strip())
 
-    prefixed_titles = [u'Template:{}'.format(title) for title in templates]
+    prefixed_titles = ['Template:{}'.format(title) for title in templates]
 
     old_langlinks = get_langlinks(prefixed_titles, lang_from, lang_to)
     langlinks = {}
@@ -186,7 +186,7 @@ def get_mappings_from_templates(lang_from, lang_to, langlinks):
     titles = {}
     for lang, templates in cnf.items():
         for template in templates:
-            titles[u'Mapping {lang}:{title}'.format(lang=lang, title=template)] = (lang, template)
+            titles['Mapping {lang}:{title}'.format(lang=lang, title=template)] = (lang, template)
     pages = get_page_contents(DBPEDIA_API, titles.keys())
     templates = {
         lang_from: {},
